@@ -5,10 +5,12 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  local:
-    push: false
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: microservice-ticketing-295214
   artifacts:
-    - image: lachlanmcwilliam/auth
+    - image: us.gcr.io/microservice-ticketing-295214/auth
       context: auth
       docker:
         dockerfile: Dockerfile
