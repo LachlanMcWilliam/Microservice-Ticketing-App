@@ -18,18 +18,19 @@ router.post(
       .withMessage("Password must be between 4 and 20 characters"),
   ],
   async (req: Request, res: Response) => {
-    //console.log("User request Rec");
 
     const errors = validationResult(req);
 
+    // If errors are found in user input throw validation error
     if (!errors.isEmpty()) {
       throw new RequestValidationError(errors.array());
     }
 
     const { email, password } = req.body;
 
-    //Check if user exists
+    // Check if user exists
     const existingUser = await User.findOne({ email });
+    // If user already exists throw a an error 
     if (existingUser) {
       throw new BadRequestError("Email is already in use");
     }
