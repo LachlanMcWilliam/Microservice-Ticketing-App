@@ -1,6 +1,16 @@
+import { response } from "express";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../app";
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      signup(email: string, password: string): Promise<string[]>;
+    }
+  }
+}
 
 let mongo: any;
 
@@ -27,3 +37,14 @@ afterAll(async () => {
   await mongo.stop();
   await mongoose.connection.close();
 });
+
+global.signup = async (email: string, password: string) => {
+  const response = await request(app)
+    .post("/api/users/signup")
+    .send({ email: email, password: password })
+    .expect(201);
+
+  const cookie = response.get("Set-Cookie");
+
+  return cookie;
+};
