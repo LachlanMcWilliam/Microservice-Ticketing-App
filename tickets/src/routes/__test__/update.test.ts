@@ -26,8 +26,7 @@ it("returns 401 if the user is not authenticated", async () => {
 it("returns 401 if the user does not own the ticket", async () => {
   const userId = "testingId";
   // Really unnecessary but garantees the user ids will be different
-  const cookie = global.signup(userId.split("").reverse().join());
-  console.log(userId.split("").reverse().join(""));
+  const cookie = global.signup(userId.split("").reverse().join(""));
 
   // Create a ticket
   const ticket = Ticket.build({
@@ -46,6 +45,13 @@ it("returns 401 if the user does not own the ticket", async () => {
     .set("Cookie", cookie)
     .send({ title: "Jaws 2", price: 30 })
     .expect(401);
+
+  // Check the up dates did not go through
+  const updatedTicket = await Ticket.findById(ticket._id);
+  expect(updatedTicket).not.toBeNull();
+
+  expect(updatedTicket!.title).toEqual(ticket.title);
+  expect(updatedTicket!.price).toEqual(ticket.price);
 });
 
 it("returns 400 if the user provides an invalid title or price", async () => {
@@ -76,6 +82,13 @@ it("returns 400 if the user provides an invalid title or price", async () => {
     .put(`/api/tickets/${ticket._id}`)
     .set("Cookie", cookie)
     .send({ title: "Jaws 2", price: -10 })
+    .expect(400);
+
+  // Check for price of 0
+  await request(app)
+    .put(`/api/tickets/${ticket._id}`)
+    .set("Cookie", cookie)
+    .send({ title: "Jaws 2", price: 0 })
     .expect(400);
 
   // Check for missing title
@@ -122,7 +135,7 @@ it("updates a ticket if provided valid inputs ", async () => {
   // Check if the updated title has been added to db
   const updatedTicket = await Ticket.findById(ticket._id);
 
-  expect(updatedTicket).not.toEqual(null);
+  expect(updatedTicket).not.toBeNull();
 
   expect(updatedTicket!.title).toEqual(updatedName);
   expect(updatedTicket!.price).toEqual(updatedPrice);
