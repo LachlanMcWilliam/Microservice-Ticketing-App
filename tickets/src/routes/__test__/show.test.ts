@@ -6,8 +6,6 @@ import mongoose from "mongoose";
 it("returns 404 if ticket not found", async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
   const res = await request(app).get(`/api/tickets/${id}`).send().expect(404);
-
-  console.log(res.body);
 });
 
 it("returns the ticket if it is found", async () => {
