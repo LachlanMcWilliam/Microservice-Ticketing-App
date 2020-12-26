@@ -27,6 +27,7 @@ it("returns 401 if the user does not own the ticket", async () => {
   const userId = "testingId";
   // Really unnecessary but garantees the user ids will be different
   const cookie = global.signup(userId.split("").reverse().join());
+  console.log(userId.split("").reverse().join(""));
 
   // Create a ticket
   const ticket = Ticket.build({
