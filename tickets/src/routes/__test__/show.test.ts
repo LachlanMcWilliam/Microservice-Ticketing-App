@@ -9,7 +9,7 @@ it("returns 404 if ticket not found", async () => {
 });
 
 it("returns the ticket if it is found", async () => {
-  // I differ from Stephen a little here, as he addresses in the video would
+  // I differ from Stephen a little here, as he addresses in the video some would
   // argue that having requests to other endpoints over saturates the scope of this test
   // I would agree with that so instead I will directly save a ticket in the test in order
   // to not test twice.
