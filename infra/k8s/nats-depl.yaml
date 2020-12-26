@@ -15,19 +15,25 @@ spec:
       containers:
         - name: nats
           image: nats-streaming:0.17.0
-          args:
-            [
+          args: [
+              # Set client port to 4222
               "-p",
               "4222",
+              # Set management port to 8222
               "-m",
               "8222",
+              # Set server heartbeat interval to 5 seconds
               "-hbi",
               "5s",
+              # Set the heartbeat response wait time for the server to 5 seconds
               "-hbt",
               "5s",
+              # Set the number of heartbeat fails before the server closes the connection to 2
               "-hbf",
               "2",
+              # Enable STAN debugging output
               "-SD",
+              # Set the cluser ID to 'ticketing'
               "-cid",
               "ticketing",
             ]
