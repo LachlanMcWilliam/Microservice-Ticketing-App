@@ -1,0 +1,1 @@
+# This is for testing and developing components for using the NATS streaming server
