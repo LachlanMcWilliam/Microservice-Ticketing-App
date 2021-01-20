@@ -6,7 +6,7 @@ const Home = () => {
 
 Home.getInitialProps = async (context) => {
   const axiosClient = buildClient(context);
-  const { data } = await axiosClient.get("/api/users/currentuser");
+  const { data } = await axiosClient.get("/api/users/currentuser/");
 
   return data;
 };

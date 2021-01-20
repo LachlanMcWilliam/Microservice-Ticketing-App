@@ -13,7 +13,7 @@ const TicketingApp = ({ Component, pageProps, currentUser }) => {
 
 TicketingApp.getInitialProps = async (appContext) => {
   const axiosClient = buildClient(appContext.ctx);
-  const { data } = await axiosClient.get("/api/users/currentuser");
+  const { data } = await axiosClient.get("/api/users/currentuser/");
 
   let pageProps = {};
   if (appContext.Component.getInitialProps) {
