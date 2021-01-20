@@ -16,6 +16,15 @@ const start = async () => {
       "very-random-muchwow",
       "http://nats-service:4222"
     );
+
+    natsWrapper.client.on("close", () => {
+      console.trace("Nats connection terminated");
+      process.exit();
+    });
+
+    process.on("SIGINT", () => natsWrapper.client.close());
+    process.on("SIGTERM", () => natsWrapper.client.close());
+
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
